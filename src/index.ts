@@ -49,18 +49,33 @@ const createNewBlock =(data:string) : Block => {
     const previousBlock: Block = getLatestBlock();
     const newIndex: number = previousBlock.index + 1;
     const newTimestamp: number = getNewTimeStamp();
-    const newHash: string = Block.calculateBlockHash(newIndex, previousBlock.hash, newTimestamp, data);
-    const newBlock: Block = new Block(newIndex, newHash, previousBlock.hash, data, newTimestamp );
+    const newHash: string = Block.calculateBlockHash(
+        newIndex, 
+        previousBlock.hash, 
+        newTimestamp, 
+        data
+    );
+    const newBlock: Block = new Block(
+        newIndex, 
+        newHash, 
+        previousBlock.hash, 
+        data, 
+        newTimestamp 
+    );
+    addBlock(newBlock);
     return newBlock;
 }
 
-console.log(createNewBlock("hello"));
-console.log(createNewBlock("bye bye"));
-
-const getHashforBlock = (aBlock: Block): string => Block.calculateBlockHash(aBlock.index, aBlock.previousHash, aBlock.timestamp, aBlock.data);
+const getHashforBlock = (aBlock: Block): string => 
+    Block.calculateBlockHash(
+        aBlock.index, 
+        aBlock.previousHash, 
+        aBlock.timestamp, 
+        aBlock.data
+    );
 
 const isBlockValid = (candidateBlock : Block, previousBlock: Block) : boolean => {
-    if(Block.validateStructure(candidateBlock)){
+    if(!Block.validateStructure(candidateBlock)){
         return false;
     } else if(previousBlock.index + 1 !== candidateBlock.index){
         return false;
@@ -78,5 +93,14 @@ const addBlock = (candidateBlock: Block) : void => {
         blockchain.push(candidateBlock);
     }
 }
+
+createNewBlock("secondblock");
+// console.log("second block");
+createNewBlock("third block");
+// console.log("thrid block");
+createNewBlock("fourth block");
+// console.log("fourth block");
+
+console.log(blockchain);
 
 export {};
